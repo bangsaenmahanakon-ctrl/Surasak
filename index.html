@@ -298,30 +298,41 @@ document.getElementById("export").onclick=()=>{
 // ดึงข้อมูลอัตโนมัติจาก Google Sheets CSV
 const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRX1sqERa5VthOPUEF5ronZ-vW7cdSLPlJZUtqI5iuuiCQ15DL-ItyaeU7HQem6xQ/pub?output=csv";
 
-fetch(csvUrl)
-  .then(response => response.text())
-  .then(csvText => {
-    const workbook = XLSX.read(csvText, { type: 'string' });
-    const sheetName = workbook.SheetNames[0];
-    const ws = workbook.Sheets[sheetName];
-    const raw = XLSX.utils.sheet_to_json(ws, { defval: "" });
+<script>
+  // ดึงข้อมูลอัตโนมัติจาก Google Sheets CSV
+  const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRX1sqERa5VthOPUEF5ronZ-vW7cdSLPlJZUtqI5iuuiCQ15DL-ItyaeU7HQem6xQ/pub?output=csv";
+
+  fetch(csvUrl)
+    .then(function(response) {
+      return response.text();
+    })
+    .then(function(csvText) {
+var workbook = XLSX.read(csvText, { type: 'string' });
+    var sheetName = workbook.SheetNames[0];
+    var ws = workbook.Sheets[sheetName];
+    var raw = XLSX.utils.sheet_to_json(ws, { defval: "" });
     if (raw.length) {
-      const headers = Object.keys(raw[0]);
-      const map = detectHeaders(headers);
-      rows = raw.map(r => Object.fromEntries(fields.map(f => [f, map[f] ? r[map[f]] : ""])));
+      var headers = Object.keys(raw[0]);
+      var map = detectHeaders(headers);
+      rows = raw.map(function(r) {
+        return Object.fromEntries(fields.map(function(f) {
+          return [f, map[f] ? r[map[f]] : ""];
+        }));
+      });
       document.getElementById("fileName").textContent = "✓ เชื่อมต่อ Google Sheets เรียบร้อย";
-      setSelect("projectFilter", unique(rows.map(r => r["ชื่อโครงการ"])));
-      setSelect("vendorFilter", unique(rows.map(r => r["ชื่อVendorส่งสินค้า"])));
-      setSelect("statusFilter", unique(rows.map(r => r["Status"])));
+      setSelect("projectFilter", unique(rows.map(function(r) { return r["ชื่อโครงการ"]; })));
+      setSelect("vendorFilter", unique(rows.map(function(r) { return r["ชื่อVendorส่งสินค้า"]; })));
+      setSelect("statusFilter", unique(rows.map(function(r) { return r["Status"]; })));
       document.getElementById("app").style.display = "block";
       document.getElementById("empty").style.display = "none";
       if (document.getElementById("importPanel")) {
         document.getElementById("importPanel").style.display = "none";
-      }
-      render();
+render();
     }
   })
-  .catch(err => console.error("Error loading CSV:", err));
+  .catch(function(err) {
+    console.error("Error loading CSV:", err);
+  });
 </script>
 </body>
 </html>
