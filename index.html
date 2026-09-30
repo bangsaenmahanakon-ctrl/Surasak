@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>https://docs.google.com/spreadsheets/d/e/2PACX-1vRX1sqERa5VthOPUEF5ronZ-vW7cdSLPIJZUtqI5iuuiCQ15DL-ItyaeU7HQem6xQ/pub?output=csv</title>
+<title>Delivery Management Dashboard</title>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <style>
@@ -296,6 +296,6 @@ document.getElementById("clearFiltered").onclick=()=>{
 document.getElementById("export").onclick=()=>{
  const ws=XLSX.utils.json_to_sheet(filtered), wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Filtered Data");XLSX.writeFile(wb,"dashboard_filtered.xlsx");
 };
-</script>
+</script>const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRX1sqERa5VthOPUEF5ronZ-vW7cdSLPlJZUtqI5iuuiCQ15DL-ItyaeU7HQem6xQ/pub?output=csv";
 </body>
 </html>
