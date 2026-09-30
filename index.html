@@ -295,7 +295,16 @@ document.getElementById("clearFiltered").onclick=()=>{
 };
 document.getElementById("export").onclick=()=>{
  const ws=XLSX.utils.json_to_sheet(filtered), wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Filtered Data");XLSX.writeFile(wb,"dashboard_filtered.xlsx");
-};
-</script>const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRX1sqERa5VthOPUEF5ronZ-vW7cdSLPlJZUtqI5iuuiCQ15DL-ItyaeU7HQem6xQ/pub?output=csv";
+// วางลิงก์ CSV ในแท็ก script (ก่อนปิด </script>)
+  const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRX1sqERa5VthOPUEF5ronZ-vW7cdSLPlJZUtqI5iuuiCQ15DL-ItyaeU7HQem6xQ/pub?output=csv";
+
+  // ฟังก์ชันดึงข้อมูลอัตโนมัติเมื่อเปิดหน้าเว็บ
+  fetch(csvUrl)
+    .then(response => response.text())
+    .then(csvText => {
+      // แปลงข้อมูล CSV และอัปเดตเข้า Dashboard ของคุณทันที
+      console.log("ดึงข้อมูลสำเร็จ");
+    });
+</script>
 </body>
 </html>
