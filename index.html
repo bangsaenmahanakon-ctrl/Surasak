@@ -294,11 +294,11 @@ document.getElementById("clearFiltered").onclick=()=>{
  else if(choice==="0") clearFilteredRows("zero");
 };
 document.getElementById("export").onclick=()=>{
- const ws=XLSX.utils.json_to_sheet(filtered), wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Filtered Data");XLSX.writeFile(wb,"dashboard_filtered.xlsx");
-// ดึงข้อมูลอัตโนมัติจาก Google Sheets CSV
-const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRX1sqERa5VthOPUEF5ronZ-vW7cdSLPlJZUtqI5iuuiCQ15DL-ItyaeU7HQem6xQ/pub?output=csv";
+    const ws=XLSX.utils.json_to_sheet(filtered), wb=XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb,ws,"Filtered Data");
+    XLSX.writeFile(wb,"dashboard.xlsx");
+  };
 
-<script>
   // ดึงข้อมูลอัตโนมัติจาก Google Sheets CSV
   const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRX1sqERa5VthOPUEF5ronZ-vW7cdSLPlJZUtqI5iuuiCQ15DL-ItyaeU7HQem6xQ/pub?output=csv";
 
@@ -307,32 +307,33 @@ const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRX1sqERa5VthOPU
       return response.text();
     })
     .then(function(csvText) {
-var workbook = XLSX.read(csvText, { type: 'string' });
-    var sheetName = workbook.SheetNames[0];
-    var ws = workbook.Sheets[sheetName];
-    var raw = XLSX.utils.sheet_to_json(ws, { defval: "" });
-    if (raw.length) {
-      var headers = Object.keys(raw[0]);
-      var map = detectHeaders(headers);
-      rows = raw.map(function(r) {
-        return Object.fromEntries(fields.map(function(f) {
-          return [f, map[f] ? r[map[f]] : ""];
-        }));
-      });
-      document.getElementById("fileName").textContent = "✓ เชื่อมต่อ Google Sheets เรียบร้อย";
-      setSelect("projectFilter", unique(rows.map(function(r) { return r["ชื่อโครงการ"]; })));
-      setSelect("vendorFilter", unique(rows.map(function(r) { return r["ชื่อVendorส่งสินค้า"]; })));
-      setSelect("statusFilter", unique(rows.map(function(r) { return r["Status"]; })));
-      document.getElementById("app").style.display = "block";
-      document.getElementById("empty").style.display = "none";
-      if (document.getElementById("importPanel")) {
-        document.getElementById("importPanel").style.display = "none";
-render();
-    }
-  })
-  .catch(function(err) {
-    console.error("Error loading CSV:", err);
-  });
+      var workbook = XLSX.read(csvText, { type: 'string' });
+      var sheetName = workbook.SheetNames[0];
+      var ws = workbook.Sheets[sheetName];
+      var raw = XLSX.utils.sheet_to_json(ws, { defval: "" });
+      if (raw.length) {
+        var headers = Object.keys(raw[0]);
+        var map = detectHeaders(headers);
+        rows = raw.map(function(r) {
+          return Object.fromEntries(fields.map(function(f) {
+            return [f, map[f] ? r[map[f]] : ""];
+          }));
+        });
+        document.getElementById("fileName").textContent = "✓ เชื่อมต่อ Google Sheets เรียบร้อย";
+        setSelect("projectFilter", unique(rows.map(function(r) { return r["ชื่อโครงการ"]; })));
+        setSelect("vendorFilter", unique(rows.map(function(r) { return r["ชื่อVendorส่งสินค้า"]; })));
+        setSelect("statusFilter", unique(rows.map(function(r) { return r["Status"]; })));
+        document.getElementById("app").style.display = "block";
+        document.getElementById("empty").style.display = "none";
+        if (document.getElementById("importPanel")) {
+          document.getElementById("importPanel").style.display = "none";
+        }
+        render();
+      }
+    })
+    .catch(function(err) {
+      console.error("Error loading CSV:", err);
+    });
 </script>
 </body>
 </html>
